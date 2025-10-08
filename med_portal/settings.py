@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +28,14 @@ SECRET_KEY = "django-insecure-@1bn$8^t7^&x!&v+o0ys2!w^l5kg^i*frwkvvxm$oga9$91(ff
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# DB Connection Variables
+load_dotenv()
+mysql_host = os.getenv("MYSQL_HOST")
+mysql_port = os.getenv("MYSQL_PORT")
+mysql_user = os.getenv("MYSQL_USER")
+mysql_password = os.getenv("MYSQL_PASSWORD")
+mysql_database = os.getenv("MYSQL_DATABASE")
 
 
 # Application definition
@@ -74,8 +84,12 @@ WSGI_APPLICATION = "med_portal.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django_mongodb_backend",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": mysql_database,
+        "USER": mysql_user,
+        "PASSWORD": mysql_password,
+        "HOST": mysql_host,
+        "PORT": mysql_port,
     }
 }
 
