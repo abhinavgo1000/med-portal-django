@@ -30,7 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # DB Connection Variables
-load_dotenv()
+load_dotenv(override=True)
 mysql_host = os.getenv("MYSQL_HOST")
 mysql_port = os.getenv("MYSQL_PORT")
 mysql_user = os.getenv("MYSQL_USER")
