@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib import admin
-from med_portal_backend.models import Physician, Patient, Medication, Diagnosis
+from med_portal_backend.models import Physician, Patient, Medication, Diagnosis, PaymentMethod, Billing
 
 
 class PhysicianForm(forms.ModelForm):
@@ -24,6 +24,18 @@ class DiagnosisForm(forms.ModelForm):
 class MedicationForm(forms.ModelForm):
     class Meta:
         model = Medication
+        fields = "__all__"
+
+
+class PaymentMethodForm(forms.ModelForm):
+    class Meta:
+        model = PaymentMethod
+        fields = "__all__"
+
+
+class BillingForm(forms.ModelForm):
+    class Meta:
+        model = Billing
         fields = "__all__"
 
 
@@ -53,7 +65,23 @@ class MedicationAdmin(admin.ModelAdmin):
     form = MedicationForm
 
 
+class PaymentMethodAdmin(admin.ModelAdmin):
+    list_filter = ['patient']
+    search_fields = ['insurance_provider']
+    list_display = ['insurance_provider']
+    form = PaymentMethodForm
+
+
+class BillingAdmin(admin.ModelAdmin):
+    list_filter = ['patient']
+    search_fields = ['billing_date']
+    list_display = ['billing_date']
+    form = BillingForm
+
+
 admin.site.register(Physician, PhysicianAdmin)
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(Diagnosis, DiagnosisAdmin)
 admin.site.register(Medication, MedicationAdmin)
+admin.site.register(PaymentMethod, PaymentMethodAdmin)
+admin.site.register(Billing, BillingAdmin)

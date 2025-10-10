@@ -55,3 +55,29 @@ class Medication(models.Model):
 
     def __str__(self):
         return self.medication_name + " " + self.medication_date
+
+
+class PaymentMethod(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    is_insurance = models.BooleanField()
+    insurance_provider = models.CharField(max_length=100, null=True, blank=True)
+    insurance_number = models.CharField(max_length=100, null=True, blank=True)
+    card_number = models.CharField(max_length=100, null=True, blank=True)
+    card_expiry_month = models.IntegerField(null=True, blank=True)
+    card_expiry_year = models.IntegerField(null=True, blank=True)
+    card_security_code = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return self.patient.first_name + " " + self.patient.last_name
+
+
+class Billing(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    billing_date = models.DateField()
+    billing_amount = models.IntegerField()
+    billing_due_date = models.DateField()
+    billing_card_number = models.CharField(max_length=100, null=True, blank=True)
+    payment_method = models.ForeignKey(PaymentMethod, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.patient.first_name + " " + self.patient.last_name
